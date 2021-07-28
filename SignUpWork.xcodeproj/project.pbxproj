@@ -15,6 +15,7 @@
 		1986302726B195B9009F37C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1986302526B195B9009F37C6 /* LaunchScreen.storyboard */; };
 		1986303226B195B9009F37C6 /* SignUpWorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1986303126B195B9009F37C6 /* SignUpWorkTests.swift */; };
 		1986303D26B195B9009F37C6 /* SignUpWorkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1986303C26B195B9009F37C6 /* SignUpWorkUITests.swift */; };
+		1986304B26B1988E009F37C6 /* loginIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1986304A26B1988E009F37C6 /* loginIcon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		1986303826B195B9009F37C6 /* SignUpWorkUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SignUpWorkUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1986303C26B195B9009F37C6 /* SignUpWorkUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpWorkUITests.swift; sourceTree = "<group>"; };
 		1986303E26B195B9009F37C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1986304A26B1988E009F37C6 /* loginIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginIcon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				1986301A26B195B9009F37C6 /* AppDelegate.swift */,
 				1986301C26B195B9009F37C6 /* SceneDelegate.swift */,
 				1986301E26B195B9009F37C6 /* ViewController.swift */,
+				1986304A26B1988E009F37C6 /* loginIcon.png */,
 				1986302026B195B9009F37C6 /* Main.storyboard */,
 				1986302326B195B9009F37C6 /* Assets.xcassets */,
 				1986302526B195B9009F37C6 /* LaunchScreen.storyboard */,
@@ -234,6 +237,7 @@
 				1986302726B195B9009F37C6 /* LaunchScreen.storyboard in Resources */,
 				1986302426B195B9009F37C6 /* Assets.xcassets in Resources */,
 				1986302226B195B9009F37C6 /* Main.storyboard in Resources */,
+				1986304B26B1988E009F37C6 /* loginIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
