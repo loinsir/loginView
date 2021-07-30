@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
 //    MARK: - Properties
     var loginImageView: UIImageView!
@@ -19,38 +19,22 @@ class ViewController: UIViewController {
     @IBOutlet var idTextField: UITextField!
     @IBOutlet var pwTextField: UITextField!
     
+//    MARK: - IBAction
+    @IBAction func touchSignInButton(_ sender: UIButton) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func touchSignUpButton(_ sender: UIButton) {
+        let signUpViewController = SignUpViewController()
+        self.navigationController?.pushViewController(signUpViewController, animated: true)
+    }
+    
 //    MARK: - Subviews
     func addSubViews() {
         self.addTextFieldView()
         self.addLoginImageView()
         self.addSignButtonViews()
-    }
-    
-    func addLoginImageView() {
-        
-        let loginImageView: UIImageView = UIImageView(image: UIImage(named: "loginIcon.png"))
-        self.view.addSubview(loginImageView)
-        loginImageView.translatesAutoresizingMaskIntoConstraints = false
-        loginImageView.contentMode = .scaleAspectFit
-        
-        let centerX: NSLayoutConstraint
-        centerX = loginImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
-        
-        let width: NSLayoutConstraint
-        width = loginImageView.widthAnchor.constraint(equalTo: self.view.widthAnchor, multiplier: 0.5)
-        
-        let ratio: NSLayoutConstraint
-        ratio = NSLayoutConstraint(item: loginImageView, attribute: .height, relatedBy: .equal, toItem: loginImageView, attribute: .width, multiplier: 0.5, constant: 0.0)
-        
-        let bottom: NSLayoutConstraint
-        bottom = NSLayoutConstraint(item: loginImageView, attribute: .bottom, relatedBy: .equal, toItem: self.inputFieldStack, attribute: .top, multiplier: 0.75, constant: 0.0)
-        
-        centerX.isActive = true
-        width.isActive = true
-        ratio.isActive = true
-        bottom.isActive = true
-        
-        self.loginImageView = loginImageView
+        self.addGestureRecognizer()
     }
     
     func addTextFieldView() {
@@ -89,6 +73,40 @@ class ViewController: UIViewController {
         self.inputFieldStack = fieldStack
         
     }
+
+    
+    func addLoginImageView() {
+        
+        let loginImageView: UIImageView = UIImageView(image: UIImage(named: "loginIcon.png"))
+        
+        self.view.addSubview(loginImageView)
+        loginImageView.translatesAutoresizingMaskIntoConstraints = false
+        loginImageView.contentMode = .scaleAspectFit
+        
+        let centerX: NSLayoutConstraint
+        centerX = loginImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        
+        let width: NSLayoutConstraint
+        width = loginImageView.widthAnchor.constraint(equalTo: self.inputFieldStack.widthAnchor, multiplier: 1.0)
+        
+        let ratio: NSLayoutConstraint
+        ratio = NSLayoutConstraint(item: loginImageView, attribute: .height, relatedBy: .equal, toItem: loginImageView, attribute: .width, multiplier: 0.5, constant: 0.0)
+        
+        let bottom: NSLayoutConstraint
+        bottom = NSLayoutConstraint(item: loginImageView, attribute: .bottom, relatedBy: .equal, toItem: self.inputFieldStack, attribute: .top, multiplier: 0.75, constant: 0.0)
+        
+        let top: NSLayoutConstraint
+        top = NSLayoutConstraint(item: loginImageView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: self.view.safeAreaLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0)
+        
+        
+        centerX.isActive = true
+        width.isActive = true
+        bottom.isActive = true
+        top.isActive = true
+        ratio.isActive = true
+        
+        self.loginImageView = loginImageView
+    }
     
     func addSignButtonViews() {
         let signInButton: UIButton! = UIButton()
@@ -96,11 +114,13 @@ class ViewController: UIViewController {
         let buttonStack: UIStackView! = UIStackView()
         
         signInButton.setTitle("Sign In", for: .normal)
-        signInButton.setTitleColor(.blue, for: .normal)
+        signInButton.setTitleColor(.systemBlue, for: .normal)
+        signInButton.setTitleColor(.opaqueSeparator, for: .highlighted)
         signInButton.contentHorizontalAlignment = .center
         
         signUpButton.setTitle("Sign Up", for: .normal)
         signUpButton.setTitleColor(.red, for: .normal)
+        signUpButton.setTitleColor(.opaqueSeparator, for: .highlighted)
         signUpButton.contentHorizontalAlignment = .center
         
         buttonStack.axis = .horizontal
@@ -108,6 +128,9 @@ class ViewController: UIViewController {
         buttonStack.distribution = .fillEqually
         buttonStack.addArrangedSubview(signInButton)
         buttonStack.addArrangedSubview(signUpButton)
+        
+        signInButton.addTarget(self, action: #selector(touchSignInButton(_:)), for: .touchUpInside)
+        signUpButton.addTarget(self, action: #selector(touchSignUpButton(_:)), for: .touchUpInside)
         
         self.view.addSubview(buttonStack)
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
@@ -128,6 +151,19 @@ class ViewController: UIViewController {
         self.signInButton = signInButton
         self.signUpButton = signUpButton
     }
+    
+//    MARK: GestureRecognizer
+    func addGestureRecognizer() {
+        let gestureRecognizer = UITapGestureRecognizer()
+        gestureRecognizer.delegate = self
+        
+        self.view.addGestureRecognizer(gestureRecognizer)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
+        return true
+    }
 
 //    MARK: - Life Cycle
     override func viewDidLoad() {
@@ -135,7 +171,14 @@ class ViewController: UIViewController {
         self.addSubViews()
         // Do any additional setup after loading the view.
     }
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.isNavigationBarHidden = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = false
+    }
 
 }
-
