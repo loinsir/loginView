@@ -86,21 +86,16 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let centerX: NSLayoutConstraint
         centerX = loginImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         
-        let width: NSLayoutConstraint
-        width = loginImageView.widthAnchor.constraint(equalTo: self.inputFieldStack.widthAnchor, multiplier: 1.0)
-        
-        let ratio: NSLayoutConstraint
-        ratio = NSLayoutConstraint(item: loginImageView, attribute: .height, relatedBy: .equal, toItem: loginImageView, attribute: .width, multiplier: 0.5, constant: 0.0)
-        
         let bottom: NSLayoutConstraint
-        bottom = NSLayoutConstraint(item: loginImageView, attribute: .bottom, relatedBy: .equal, toItem: self.inputFieldStack, attribute: .top, multiplier: 0.75, constant: 0.0)
+        bottom = NSLayoutConstraint(item: loginImageView, attribute: .bottom, relatedBy: .equal, toItem: self.inputFieldStack, attribute: .top, multiplier: 1.0, constant: 0.0)
         
         let top: NSLayoutConstraint
         top = NSLayoutConstraint(item: loginImageView, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: self.view.safeAreaLayoutGuide, attribute: .top, multiplier: 1.0, constant: 0.0)
         
+        let ratio: NSLayoutConstraint
+        ratio = NSLayoutConstraint(item: loginImageView, attribute: .width, relatedBy: .equal, toItem: loginImageView, attribute: .height, multiplier: 0.65, constant: 0.0)
         
         centerX.isActive = true
-        width.isActive = true
         bottom.isActive = true
         top.isActive = true
         ratio.isActive = true
