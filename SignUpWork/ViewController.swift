@@ -26,7 +26,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func touchSignUpButton(_ sender: UIButton) {
         let signUpViewController = SignUpViewController()
-        self.navigationController?.pushViewController(signUpViewController, animated: true)
+        self.present(signUpViewController, animated: true, completion: nil)
+//        self.navigationController?.pushViewController(signUpViewController, animated: true)
     }
     
 //    MARK: - Subviews
@@ -165,15 +166,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         self.addSubViews()
         // Do any additional setup after loading the view.
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.navigationController?.isNavigationBarHidden = true
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = false
     }
 
 }
