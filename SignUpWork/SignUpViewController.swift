@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate {
+class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
     
 //    MARK: - Properties
     lazy var userImgPicker: UIImagePickerController = {
@@ -19,7 +19,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }()
     
 //    MARK: - IBOutlet
-    @IBOutlet weak var userImageField: UIImageView!
+    @IBOutlet var userImageField: UIImageView!
     
     @IBOutlet var idField: UITextField!
     @IBOutlet var pwField: UITextField!
@@ -38,21 +38,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.present(self.userImgPicker, animated: true, completion: nil)
     }
     
-//    MARK: UIImagePickerController
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImg: UIImage = info[.editedImage] as? UIImage {
-            self.userImageField.image = selectedImg
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-//    MARK: Confirm button state check
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    //  Confirm button state check
+    @IBAction func confirmButtonState(_ sender: UIView) {
         if self.userImageField.image != nil
             && self.idField.text != ""
             && self.pwField.text != ""
@@ -66,6 +53,20 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         } else {
             self.confirmButton.isEnabled = false
         }
+    }
+    
+//    MARK: - UIImagePickerControllerDelegate
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImg: UIImage = info[.editedImage] as? UIImage {
+            self.userImageField.image = selectedImg
+            self.confirmButtonState(self.userImageField)
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
     }
     
 //    MARK: - SubView
@@ -136,19 +137,18 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         height.isActive = true
         textFieldStackWidth.isActive = true
         
-        idFieldView.delegate = self
-        pwFieldView.delegate = self
-        validPWFieldView.delegate = self
+        idFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
+        pwFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
+        validPWFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
         
         let touchUserImageField: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(touchUserImageField(_:)))
         userImgView.addGestureRecognizer(touchUserImageField)
         userImgView.isUserInteractionEnabled = true
-        
+
         self.userImageField = userImgView
         self.idField = idFieldView
         self.pwField = pwFieldView
         self.chckPwField = validPWFieldView
-        
     }
     
     func addUserDescriptionField() {
@@ -175,7 +175,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         bottom.isActive = true
         width.isActive = true
         
-        descField.delegate = self
+        descField.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
         self.userDescField = descField
     }
     
