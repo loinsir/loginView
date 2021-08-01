@@ -49,6 +49,8 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         idInputField.borderStyle = .roundedRect
         pwInputField.borderStyle = .roundedRect
         
+        pwInputField.isSecureTextEntry = true
+        
         fieldStack.alignment = .fill
         fieldStack.axis = .vertical
         fieldStack.addArrangedSubview(idInputField)

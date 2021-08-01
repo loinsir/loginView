@@ -33,6 +33,22 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func confirmButtonState(_ sender: UITextField) {
+        if self.userImgView.image != nil
+            && self.idField.text != ""
+            && self.pwField.text != ""
+            && self.chckPwField.text != ""
+            && self.userDescField.text != "" {
+            if self.pwField.text == self.chckPwField.text {
+                self.confirmButton.isEnabled = true
+            } else {
+                self.confirmButton.isEnabled = false
+            }
+        } else {
+            self.confirmButton.isEnabled = false
+        }
+    }
+    
 //    MARK: - SubView
     func addSubViews() {
         self.addUserImgAndFieldView()
@@ -45,6 +61,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let idFieldView: UITextField = UITextField()
         let pwFieldView: UITextField = UITextField()
         let validPWFieldView: UITextField = UITextField()
+        
+        pwFieldView.isSecureTextEntry = true
+        validPWFieldView.isSecureTextEntry = true
         
         idFieldView.placeholder = "ID"
         pwFieldView.placeholder = "Password"
@@ -64,6 +83,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         textFieldStack.alignment = .fill
         textFieldStack.distribution = .fillEqually
         
+        // horizontal stack of textfields and imagefield
         let fieldstack: UIStackView = UIStackView(arrangedSubviews: [userImgView, textFieldStack])
         fieldstack.axis = .horizontal
         fieldstack.spacing = 10
@@ -92,6 +112,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         height.isActive = true
         textFieldStackWidth.isActive = true
         
+        pwFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
+        validPWFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
+        
+        self.userImgView = userImgView
         self.idField = idFieldView
         self.pwField = pwFieldView
         self.chckPwField = validPWFieldView
@@ -137,6 +161,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         confirm.setTitle("Confirm", for: .normal)
         confirm.setTitleColor(.systemBlue, for: .normal)
         confirm.setTitleColor(.opaqueSeparator, for: .highlighted)
+        confirm.setTitleColor(.opaqueSeparator, for: .disabled)
         
         let buttonStack: UIStackView = UIStackView(arrangedSubviews: [cancel, confirm])
         buttonStack.axis = .horizontal
@@ -163,6 +188,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         width.isActive = true
         top.isActive = true
         
+        confirm.isEnabled = false // default state of button
         self.cancelButton = cancel
         self.confirmButton = confirm
         
