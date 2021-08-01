@@ -7,10 +7,10 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
 //    MARK: - Properties
-    lazy var userimgPicker: UIImagePickerController = {
+    lazy var userImgPicker: UIImagePickerController = {
         let imgPicker: UIImagePickerController = UIImagePickerController()
         imgPicker.sourceType = .photoLibrary
         imgPicker.delegate = self
@@ -33,7 +33,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func confirmButtonState(_ sender: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if self.userImgView.image != nil
             && self.idField.text != ""
             && self.pwField.text != ""
@@ -112,8 +112,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         height.isActive = true
         textFieldStackWidth.isActive = true
         
-        pwFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
-        validPWFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
+        idFieldView.delegate = self
+        pwFieldView.delegate = self
+        validPWFieldView.delegate = self
         
         self.userImgView = userImgView
         self.idField = idFieldView
@@ -146,6 +147,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         bottom.isActive = true
         width.isActive = true
         
+        descField.delegate = self
         self.userDescField = descField
     }
     
