@@ -14,6 +14,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let imgPicker: UIImagePickerController = UIImagePickerController()
         imgPicker.sourceType = .photoLibrary
         imgPicker.delegate = self
+        imgPicker.allowsEditing = true
         return imgPicker
     }()
     
@@ -39,7 +40,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
 //    MARK: UIImagePickerController
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImg: UIImage = info[.originalImage] as? UIImage {
+        if let selectedImg: UIImage = info[.editedImage] as? UIImage {
             self.userImageField.image = selectedImg
             self.dismiss(animated: true, completion: nil)
         }
@@ -93,6 +94,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         userImgView.backgroundColor = .systemOrange
         userImgView.tintColor = .systemYellow
+        userImgView.adjustsImageSizeForAccessibilityContentSizeCategory = false
         
         // vertical stack of textfields
         let textFieldStack: UIStackView = UIStackView(arrangedSubviews: [idFieldView, pwFieldView, validPWFieldView])
@@ -118,8 +120,11 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let width: NSLayoutConstraint
         width = fieldstack.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.9)
         
+        let imgFieldRatio: NSLayoutConstraint
+        imgFieldRatio = NSLayoutConstraint(item: userImgView, attribute: .height, relatedBy: .equal, toItem: userImgView, attribute: .width, multiplier: 1.0, constant: 0.0)
+        
         let height: NSLayoutConstraint
-        height = fieldstack.heightAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.heightAnchor, multiplier: 0.25)
+        height = fieldstack.heightAnchor.constraint(equalTo: userImgView.heightAnchor)
         
         let textFieldStackWidth: NSLayoutConstraint
         textFieldStackWidth = textFieldStack.widthAnchor.constraint(equalTo: fieldstack.widthAnchor, multiplier: 0.66)
@@ -127,6 +132,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         top.isActive = true
         centerX.isActive = true
         width.isActive = true
+        imgFieldRatio.isActive = true
         height.isActive = true
         textFieldStackWidth.isActive = true
         
