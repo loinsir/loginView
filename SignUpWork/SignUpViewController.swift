@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
 //    MARK: - Properties
     lazy var userImgPicker: UIImagePickerController = {
@@ -18,7 +18,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }()
     
 //    MARK: - IBOutlet
-    @IBOutlet weak var userImgView: UIImageView!
+    @IBOutlet weak var userImageField: UIImageView!
     
     @IBOutlet var idField: UITextField!
     @IBOutlet var pwField: UITextField!
@@ -33,8 +33,26 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.dismiss(animated: true, completion: nil)
     }
     
+    @IBAction func touchUserImageField(_ sender: UIImageView) {
+        self.present(self.userImgPicker, animated: true, completion: nil)
+    }
+    
+//    MARK: UIImagePickerController
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImg: UIImage = info[.originalImage] as? UIImage {
+            self.userImageField.image = selectedImg
+            self.dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+//    MARK: Confirm button state check
     func textFieldDidEndEditing(_ textField: UITextField) {
-        if self.userImgView.image != nil
+        if self.userImageField.image != nil
             && self.idField.text != ""
             && self.pwField.text != ""
             && self.chckPwField.text != ""
@@ -116,7 +134,11 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         pwFieldView.delegate = self
         validPWFieldView.delegate = self
         
-        self.userImgView = userImgView
+        let touchUserImageField: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(touchUserImageField(_:)))
+        userImgView.addGestureRecognizer(touchUserImageField)
+        userImgView.isUserInteractionEnabled = true
+        
+        self.userImageField = userImgView
         self.idField = idFieldView
         self.pwField = pwFieldView
         self.chckPwField = validPWFieldView
@@ -194,19 +216,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         self.cancelButton = cancel
         self.confirmButton = confirm
         
-    }
-    
-//    MARK: - IBAction
-
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImg: UIImage = info[.originalImage] as? UIImage {
-            self.userImgView.image = selectedImg
-        }
-    }
-    
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
     }
 
 //    MARK: - LifeCycle
