@@ -55,6 +55,11 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         }
     }
     
+    @IBAction func touchConfirmButton(_ sender: UIButton) {
+        let detailViewController: UIViewController = DetailSignUpViewController()
+        self.show(detailViewController, sender: self)
+    }
+    
 //    MARK: - UIImagePickerControllerDelegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImg: UIImage = info[.editedImage] as? UIImage {
@@ -71,6 +76,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
 //    MARK: - SubView
     func addSubViews() {
+        self.addGestureRecognizer()
         self.addUserImgAndFieldView()
         self.addUserDescriptionField()
         self.addCancelAndConfirmButton()
@@ -219,10 +225,24 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         top.isActive = true
         
         confirm.isEnabled = false // default state of button
+        confirm.addTarget(self, action: #selector(touchConfirmButton(_:)), for: .touchUpInside)
+        
         self.cancelButton = cancel
         self.confirmButton = confirm
         
     }
+    
+    func addGestureRecognizer() {
+        let gestureRecognizer = UITapGestureRecognizer()
+        gestureRecognizer.delegate = self
+        self.view.addGestureRecognizer(gestureRecognizer)
+    }
+    
+//    MARK: GestureRecognizer
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
+    }
+    
 
 //    MARK: - LifeCycle
     override func viewDidLoad() {

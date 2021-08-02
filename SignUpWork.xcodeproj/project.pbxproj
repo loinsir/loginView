@@ -17,6 +17,7 @@
 		1986303D26B195B9009F37C6 /* SignUpWorkUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1986303C26B195B9009F37C6 /* SignUpWorkUITests.swift */; };
 		1986304B26B1988E009F37C6 /* loginIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1986304A26B1988E009F37C6 /* loginIcon.png */; };
 		1986305126B3E84D009F37C6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1986305026B3E84D009F37C6 /* SignUpViewController.swift */; };
+		1986309326B7C998009F37C6 /* DetailSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1986309226B7C998009F37C6 /* DetailSignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		1986303E26B195B9009F37C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1986304A26B1988E009F37C6 /* loginIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = loginIcon.png; sourceTree = "<group>"; };
 		1986305026B3E84D009F37C6 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		1986309226B7C998009F37C6 /* DetailSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +109,7 @@
 				1986301C26B195B9009F37C6 /* SceneDelegate.swift */,
 				1986301E26B195B9009F37C6 /* ViewController.swift */,
 				1986305026B3E84D009F37C6 /* SignUpViewController.swift */,
+				1986309226B7C998009F37C6 /* DetailSignUpViewController.swift */,
 				1986304A26B1988E009F37C6 /* loginIcon.png */,
 				1986302026B195B9009F37C6 /* Main.storyboard */,
 				1986302326B195B9009F37C6 /* Assets.xcassets */,
@@ -266,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1986301F26B195B9009F37C6 /* ViewController.swift in Sources */,
+				1986309326B7C998009F37C6 /* DetailSignUpViewController.swift in Sources */,
 				1986301B26B195B9009F37C6 /* AppDelegate.swift in Sources */,
 				1986305126B3E84D009F37C6 /* SignUpViewController.swift in Sources */,
 				1986301D26B195B9009F37C6 /* SceneDelegate.swift in Sources */,
