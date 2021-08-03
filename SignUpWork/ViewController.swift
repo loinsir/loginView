@@ -30,6 +30,7 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let navigationController = UINavigationController(rootViewController: signUpViewController)
         navigationController.modalPresentationStyle = .fullScreen
         navigationController.isNavigationBarHidden = true
+        
         self.present(navigationController, animated: true, completion: nil)
     }
     
