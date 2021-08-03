@@ -49,8 +49,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
     }
     
     @IBAction func confirmButtonState(_ sender: UIView) {
-        if phoneNumberField.text != "" &&
-            datePicker.date != nil {
+        if phoneNumberField.text != "" {
             self.signUpButton.isEnabled = true
         } else {
             self.signUpButton.isEnabled = false
@@ -195,7 +194,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
         centerX = buttonStack.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         
         let top: NSLayoutConstraint
-        top = buttonStack.topAnchor.constraint(equalTo: self.datePicker.bottomAnchor, constant: 30.0)
+        top = buttonStack.topAnchor.constraint(equalTo: self.datePicker.bottomAnchor, constant: 13.0)
         
         let width: NSLayoutConstraint
         width = buttonStack.widthAnchor.constraint(equalTo: self.view.widthAnchor)
@@ -217,6 +216,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
         super.viewDidLoad()
         self.view.backgroundColor = .white
         // Do any additional setup after loading the view.
+        self.addGestureRecognizer()
         self.addSubViews()
     }
     
