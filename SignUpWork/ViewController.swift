@@ -12,12 +12,10 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 //    MARK: - Properties
     var loginImageView: UIImageView!
     var inputFieldStack: UIStackView!
-    var signInButton: UIButton!
-    var signUpButton: UIButton!
     
 //    MARK: - IBOutlet
-    @IBOutlet var idTextField: UITextField!
-    @IBOutlet var pwTextField: UITextField!
+    @IBOutlet var signInButton: UIButton!
+    @IBOutlet var signUpButton: UIButton!
     
 //    MARK: - IBAction
     @IBAction func touchSignInButton(_ sender: UIButton) {
@@ -46,6 +44,13 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         let idInputField: UITextField = UITextField()
         let pwInputField: UITextField = UITextField()
         let fieldStack: UIStackView = UIStackView()
+        
+        if let signUpId = UserInformation.shared.id {
+            idInputField.text = signUpId
+        }
+        if let signUpPW = UserInformation.shared.password {
+            pwInputField.text = signUpPW
+        }
         
         idInputField.placeholder = "ID"
         pwInputField.placeholder = "Password"
@@ -173,5 +178,4 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         self.addSubViews()
         // Do any additional setup after loading the view.
     }
-
 }

@@ -31,6 +31,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
 //    MARK: - IBAction
     @IBAction func touchCancelButton(_ sender: UIButton) {
+        UserInformation.shared.clearFields()
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -56,6 +57,11 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     @IBAction func touchConfirmButton(_ sender: UIButton) {
+        UserInformation.shared.image = self.userImageField.image
+        UserInformation.shared.id = self.idField.text
+        UserInformation.shared.password = self.pwField.text
+        UserInformation.shared.description = self.userDescField.text
+        
         let detailViewController: UIViewController = DetailSignUpViewController()
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
