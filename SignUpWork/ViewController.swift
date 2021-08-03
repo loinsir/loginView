@@ -26,8 +26,11 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     
     @IBAction func touchSignUpButton(_ sender: UIButton) {
         let signUpViewController = SignUpViewController()
-        signUpViewController.modalPresentationStyle = .fullScreen
-        self.present(signUpViewController, animated: true, completion: nil)
+    
+        let navigationController = UINavigationController(rootViewController: signUpViewController)
+        navigationController.modalPresentationStyle = .fullScreen
+        navigationController.isNavigationBarHidden = true
+        self.present(navigationController, animated: true, completion: nil)
     }
     
 //    MARK: - Subviews

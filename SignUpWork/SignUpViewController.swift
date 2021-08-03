@@ -57,7 +57,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     @IBAction func touchConfirmButton(_ sender: UIButton) {
         let detailViewController: UIViewController = DetailSignUpViewController()
-        self.show(detailViewController, sender: self)
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
 //    MARK: - UIImagePickerControllerDelegate
