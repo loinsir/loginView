@@ -41,9 +41,31 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func addTextFieldView() {
-        let idInputField: UITextField = UITextField()
-        let pwInputField: UITextField = UITextField()
-        let fieldStack: UIStackView = UIStackView()
+        let idInputField: UITextField = {
+            let field: UITextField = UITextField()
+            field.placeholder = "ID"
+            field.borderStyle = .roundedRect
+            return field
+        }()
+        
+        let pwInputField: UITextField = {
+            let field: UITextField = UITextField()
+            field.placeholder = "Password"
+            field.borderStyle = .roundedRect
+            field.isSecureTextEntry = true
+            return field
+        }()
+        
+        let fieldStack: UIStackView = {
+            let stackView: UIStackView = UIStackView()
+            stackView.alignment = .fill
+            stackView.axis = .vertical
+            stackView.addArrangedSubview(idInputField)
+            stackView.addArrangedSubview(pwInputField)
+            stackView.spacing = 15.0
+            stackView.translatesAutoresizingMaskIntoConstraints = false
+            return stackView
+        }()
         
         if let signUpId = UserInformation.shared.id {
             idInputField.text = signUpId
@@ -51,24 +73,9 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         if let signUpPW = UserInformation.shared.password {
             pwInputField.text = signUpPW
         }
-        
-        idInputField.placeholder = "ID"
-        pwInputField.placeholder = "Password"
-        
-        idInputField.borderStyle = .roundedRect
-        pwInputField.borderStyle = .roundedRect
-        
-        pwInputField.isSecureTextEntry = true
-        
-        fieldStack.alignment = .fill
-        fieldStack.axis = .vertical
-        fieldStack.addArrangedSubview(idInputField)
-        fieldStack.addArrangedSubview(pwInputField)
-        fieldStack.spacing = 15.0
-        
+    
         self.view.addSubview(fieldStack)
-        fieldStack.translatesAutoresizingMaskIntoConstraints = false
-
+        
         let centerX: NSLayoutConstraint
         centerX = fieldStack.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         
@@ -88,12 +95,15 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
 
     
     func addLoginImageView() {
-        
-        let loginImageView: UIImageView = UIImageView(image: UIImage(named: "loginIcon.png"))
+        let loginImageView: UIImageView = {
+            let imageView: UIImageView = UIImageView()
+            imageView.image = UIImage(named: "loginIcon.png")
+            imageView.translatesAutoresizingMaskIntoConstraints = false
+            imageView.contentMode = .scaleAspectFit
+            return imageView
+        }()
         
         self.view.addSubview(loginImageView)
-        loginImageView.translatesAutoresizingMaskIntoConstraints = false
-        loginImageView.contentMode = .scaleAspectFit
         
         let centerX: NSLayoutConstraint
         centerX = loginImageView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
@@ -116,28 +126,35 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     func addSignButtonViews() {
-        let signInButton: UIButton! = UIButton()
-        let signUpButton: UIButton! = UIButton()
-        let buttonStack: UIStackView! = UIStackView()
-        
-        signInButton.setTitle("Sign In", for: .normal)
-        signInButton.setTitleColor(.systemBlue, for: .normal)
-        signInButton.setTitleColor(.opaqueSeparator, for: .highlighted)
-        signInButton.contentHorizontalAlignment = .center
-        
-        signUpButton.setTitle("Sign Up", for: .normal)
-        signUpButton.setTitleColor(.red, for: .normal)
-        signUpButton.setTitleColor(.opaqueSeparator, for: .highlighted)
-        signUpButton.contentHorizontalAlignment = .center
-        
-        buttonStack.axis = .horizontal
-        buttonStack.alignment = .fill
-        buttonStack.distribution = .fillEqually
-        buttonStack.addArrangedSubview(signInButton)
-        buttonStack.addArrangedSubview(signUpButton)
-        
+        let signInButton: UIButton = {
+            let button: UIButton = UIButton()
+            button.setTitle("Sign In", for: .normal)
+            button.setTitleColor(.systemBlue, for: .normal)
+            button.setTitleColor(.opaqueSeparator, for: .highlighted)
+            button.contentHorizontalAlignment = .center
+            return button
+        }()
         signInButton.addTarget(self, action: #selector(touchSignInButton(_:)), for: .touchUpInside)
+        
+        let signUpButton: UIButton = {
+            let button: UIButton = UIButton()
+            button.setTitle("Sign Up", for: .normal)
+            button.setTitleColor(.red, for: .normal)
+            button.setTitleColor(.opaqueSeparator, for: .highlighted)
+            button.contentHorizontalAlignment = .center
+            return button
+        }()
         signUpButton.addTarget(self, action: #selector(touchSignUpButton(_:)), for: .touchUpInside)
+        
+        let buttonStack: UIStackView = {
+            let stackView: UIStackView = UIStackView()
+            stackView.axis = .horizontal
+            stackView.alignment = .fill
+            stackView.distribution = .fillEqually
+            stackView.addArrangedSubview(signInButton)
+            stackView.addArrangedSubview(signUpButton)
+            return stackView
+        }()
         
         self.view.addSubview(buttonStack)
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
