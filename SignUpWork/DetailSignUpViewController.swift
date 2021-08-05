@@ -117,6 +117,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
             picker.datePickerMode = .date
             return picker
         }()
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
         
         let datePickerLabel: UILabel = {
             let dateLabel = UILabel()
@@ -150,8 +151,6 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
         width.isActive = true
         centerX.isActive = true
         
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-        
         self.datePicker = datePicker
         self.datePickerLabel = datePickerLabel
     }
@@ -164,6 +163,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
             button.setTitleColor(.opaqueSeparator, for: .highlighted)
             return button
         }()
+        cancelButton.addTarget(self, action: #selector(touchCancelButton(_:)), for: .touchUpInside)
         
         let prevButton: UIButton = {
             let button = UIButton()
@@ -172,6 +172,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
             button.setTitleColor(.opaqueSeparator, for: .highlighted)
             return button
         }()
+        prevButton.addTarget(self, action: #selector(touchPrevButton(_:)), for: .touchUpInside)
         
         let signUpButton: UIButton = {
             let button = UIButton()
@@ -182,6 +183,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
             button.isEnabled = false // default state
             return button
         }()
+        signUpButton.addTarget(self, action: #selector(touchSignUpButton(_:)), for: .touchUpInside)
         
         let buttonStack: UIStackView = UIStackView(arrangedSubviews: [cancelButton, prevButton, signUpButton])
         buttonStack.axis = .horizontal
@@ -203,9 +205,6 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
         top.isActive = true
         width.isActive = true
         
-        cancelButton.addTarget(self, action: #selector(touchCancelButton(_:)), for: .touchUpInside)
-        prevButton.addTarget(self, action: #selector(touchPrevButton(_:)), for: .touchUpInside)
-        signUpButton.addTarget(self, action: #selector(touchSignUpButton(_:)), for: .touchUpInside)
         
         self.cancelButton = cancelButton
         self.prevButton = prevButton

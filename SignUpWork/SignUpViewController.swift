@@ -89,37 +89,61 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     func addUserImgAndFieldView() {
-        let userImgView: UIImageView = UIImageView()
-        let idFieldView: UITextField = UITextField()
-        let pwFieldView: UITextField = UITextField()
-        let validPWFieldView: UITextField = UITextField()
+        let userImgView: UIImageView = {
+            let imgView: UIImageView = UIImageView()
+            imgView.backgroundColor = .systemOrange
+            imgView.tintColor = .systemYellow
+            imgView.adjustsImageSizeForAccessibilityContentSizeCategory = false
+            return imgView
+        }()
+        let touchUserImageField: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(touchUserImageField(_:)))
+        userImgView.addGestureRecognizer(touchUserImageField)
+        userImgView.isUserInteractionEnabled = true
         
-        pwFieldView.isSecureTextEntry = true
-        validPWFieldView.isSecureTextEntry = true
         
-        idFieldView.placeholder = "ID"
-        pwFieldView.placeholder = "Password"
-        validPWFieldView.placeholder = "Check Password"
+        let idFieldView: UITextField = {
+            let field: UITextField = UITextField()
+            field.placeholder = "ID"
+            field.borderStyle = .roundedRect
+            return field
+        }()
+        idFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
         
-        idFieldView.borderStyle = .roundedRect
-        pwFieldView.borderStyle = .roundedRect
-        validPWFieldView.borderStyle = .roundedRect
+        let pwFieldView: UITextField = {
+            let field: UITextField = UITextField()
+            field.placeholder = "Password"
+            field.isSecureTextEntry = true
+            field.borderStyle = .roundedRect
+            return field
+        }()
+        pwFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
         
-        userImgView.backgroundColor = .systemOrange
-        userImgView.tintColor = .systemYellow
-        userImgView.adjustsImageSizeForAccessibilityContentSizeCategory = false
+        let validPWFieldView: UITextField = {
+            let field: UITextField = UITextField()
+            field.placeholder = "Check Password"
+            field.isSecureTextEntry = true
+            field.borderStyle = .roundedRect
+            return field
+        }()
+        validPWFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
         
         // vertical stack of textfields
-        let textFieldStack: UIStackView = UIStackView(arrangedSubviews: [idFieldView, pwFieldView, validPWFieldView])
-        textFieldStack.axis = .vertical
-        textFieldStack.spacing = 10
-        textFieldStack.alignment = .fill
-        textFieldStack.distribution = .fillEqually
+        let textFieldStack: UIStackView = {
+            let stack: UIStackView = UIStackView(arrangedSubviews: [idFieldView, pwFieldView, validPWFieldView])
+            stack.axis = .vertical
+            stack.spacing = 10
+            stack.alignment = .fill
+            stack.distribution = .fillEqually
+            return stack
+        }()
         
         // horizontal stack of textfields and imagefield
-        let fieldstack: UIStackView = UIStackView(arrangedSubviews: [userImgView, textFieldStack])
-        fieldstack.axis = .horizontal
-        fieldstack.spacing = 10
+        let fieldstack: UIStackView = {
+            let stack: UIStackView = UIStackView(arrangedSubviews: [userImgView, textFieldStack])
+            stack.axis = .horizontal
+            stack.spacing = 10
+            return stack
+        }()
         
         self.view.addSubview(fieldstack)
         fieldstack.translatesAutoresizingMaskIntoConstraints = false
@@ -148,14 +172,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         imgFieldRatio.isActive = true
         height.isActive = true
         textFieldStackWidth.isActive = true
-        
-        idFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
-        pwFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
-        validPWFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
-        
-        let touchUserImageField: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(touchUserImageField(_:)))
-        userImgView.addGestureRecognizer(touchUserImageField)
-        userImgView.isUserInteractionEnabled = true
 
         self.userImageField = userImgView
         self.idField = idFieldView
@@ -192,24 +208,33 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     func addCancelAndConfirmButton() {
-        let cancel = UIButton()
-        let confirm = UIButton()
-        
-        cancel.setTitle("Cancel", for: .normal)
-        cancel.setTitleColor(.systemRed, for: .normal)
-        cancel.setTitleColor(.opaqueSeparator, for: .highlighted)
+        let cancel: UIButton = {
+            let button: UIButton = UIButton()
+            button.setTitle("Cancel", for: .normal)
+            button.setTitleColor(.systemRed, for: .normal)
+            button.setTitleColor(.opaqueSeparator, for: .highlighted)
+            return button
+        }()
         cancel.addTarget(self, action: #selector(touchCancelButton(_:)), for: .touchUpInside)
         
-        confirm.setTitle("Confirm", for: .normal)
-        confirm.setTitleColor(.systemBlue, for: .normal)
-        confirm.setTitleColor(.opaqueSeparator, for: .highlighted)
-        confirm.setTitleColor(.opaqueSeparator, for: .disabled)
+        let confirm: UIButton = {
+            let button: UIButton = UIButton()
+            button.setTitle("Confirm", for: .normal)
+            button.setTitleColor(.systemBlue, for: .normal)
+            button.setTitleColor(.opaqueSeparator, for: .highlighted)
+            button.setTitleColor(.opaqueSeparator, for: .disabled)
+            button.isEnabled = false // default state of button
+            return button
+        }()
+        confirm.addTarget(self, action: #selector(touchConfirmButton(_:)), for: .touchUpInside)
         
-        let buttonStack: UIStackView = UIStackView(arrangedSubviews: [cancel, confirm])
-        buttonStack.axis = .horizontal
-        buttonStack.alignment = .fill
-        buttonStack.distribution = .fillEqually
-        
+        let buttonStack: UIStackView = {
+            let stack: UIStackView = UIStackView(arrangedSubviews: [cancel, confirm])
+            stack.axis = .horizontal
+            stack.alignment = .fill
+            stack.distribution = .fillEqually
+            return stack
+        }()
         self.view.addSubview(buttonStack)
         buttonStack.translatesAutoresizingMaskIntoConstraints = false
         
@@ -229,9 +254,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         bottom.isActive = true
         width.isActive = true
         top.isActive = true
-        
-        confirm.isEnabled = false // default state of button
-        confirm.addTarget(self, action: #selector(touchConfirmButton(_:)), for: .touchUpInside)
         
         self.cancelButton = cancel
         self.confirmButton = confirm
