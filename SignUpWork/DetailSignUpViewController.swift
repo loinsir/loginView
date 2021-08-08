@@ -7,10 +7,10 @@
 
 import UIKit
 
-class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate {
+class DetailSignUpViewController: UIViewController {
     
 //    MARK: - Properties
-    var dateFormatter: DateFormatter = {
+    let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMMM dd, YYYY"
         return formatter
@@ -22,51 +22,39 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
 //    MARK: - IBOutlet
     @IBOutlet var datePicker: UIDatePicker!
     @IBOutlet var cancelButton: UIButton!
-    @IBOutlet var prevButton: UIButton!
+    @IBOutlet var previousButton: UIButton!
     @IBOutlet var signUpButton: UIButton!
     
 //    MARK: - IBAction
-    @IBAction func datePickerValueChanged(_ sender: UIDatePicker) {
+    @objc func datePickerValueChanged(_ sender: UIDatePicker) {
         let selectedDate: Date = self.datePicker.date
         self.datePickerLabel.text = self.dateFormatter.string(from: selectedDate)
     }
     
-    @IBAction func touchCancelButton(_ sender: UIButton) {
+    @objc func touchCancelButton(_ sender: UIButton) {
         UserInformation.shared.clearFields()
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func touchPrevButton(_ sender: UIButton) {
+    @objc func touchPrevButton(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
     
-    @IBAction func touchSignUpButton(_ sender: UIButton) {
+    @objc func touchSignUpButton(_ sender: UIButton) {
         UserInformation.shared.phoneNumber = self.phoneNumberField.text
         UserInformation.shared.birthDay = self.datePicker.date
         
-        self.presentingViewController?.viewDidLoad()
+        self.presentedViewController?.reloadInputViews()
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func confirmButtonState(_ sender: UIView) {
+    @objc func confirmButtonState(_ sender: UIView) {
         if phoneNumberField.text != "" {
             self.signUpButton.isEnabled = true
         } else {
             self.signUpButton.isEnabled = false
         }
     }
-    
-//    MARK: - Gesture Recognizer
-    func addGestureRecognizer() {
-        let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer()
-        gestureRecognizer.delegate = self
-        self.view.addGestureRecognizer(gestureRecognizer)
-    }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        self.view.endEditing(true)
-    }
-
 //    MARK: - Subviews
     func addSubViews() {
         self.addPhoneNumberField()
@@ -109,7 +97,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
     }
     
     func addDatePicker() {
-        let birthLabel: UILabel = UILabel()
+        let birthDayLabel: UILabel = UILabel()
         
         let datePicker: UIDatePicker = {
             let picker = UIDatePicker()
@@ -125,9 +113,9 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
             return dateLabel
         }()
         
-        birthLabel.text = "생년월일"
+        birthDayLabel.text = "생년월일"
 
-        let labelStack: UIStackView = UIStackView(arrangedSubviews: [birthLabel, datePickerLabel])
+        let labelStack: UIStackView = UIStackView(arrangedSubviews: [birthDayLabel, datePickerLabel])
         labelStack.axis = .horizontal
         labelStack.distribution = .equalSpacing
         
@@ -165,14 +153,14 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
         }()
         cancelButton.addTarget(self, action: #selector(touchCancelButton(_:)), for: .touchUpInside)
         
-        let prevButton: UIButton = {
+        let previousButton: UIButton = {
             let button = UIButton()
             button.setTitle("이전", for: .normal)
             button.setTitleColor(.systemBlue, for: .normal)
             button.setTitleColor(.opaqueSeparator, for: .highlighted)
             return button
         }()
-        prevButton.addTarget(self, action: #selector(touchPrevButton(_:)), for: .touchUpInside)
+        previousButton.addTarget(self, action: #selector(touchPrevButton(_:)), for: .touchUpInside)
         
         let signUpButton: UIButton = {
             let button = UIButton()
@@ -185,7 +173,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
         }()
         signUpButton.addTarget(self, action: #selector(touchSignUpButton(_:)), for: .touchUpInside)
         
-        let buttonStack: UIStackView = UIStackView(arrangedSubviews: [cancelButton, prevButton, signUpButton])
+        let buttonStack: UIStackView = UIStackView(arrangedSubviews: [cancelButton, previousButton, signUpButton])
         buttonStack.axis = .horizontal
         buttonStack.distribution = .fillEqually
         
@@ -207,7 +195,7 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
         
         
         self.cancelButton = cancelButton
-        self.prevButton = prevButton
+        self.previousButton = previousButton
         self.signUpButton = signUpButton
     }
 
@@ -230,4 +218,17 @@ class DetailSignUpViewController: UIViewController, UIGestureRecognizerDelegate 
     }
     */
 
+}
+
+//    MARK: - GestureRecognizerDelegate
+extension DetailSignUpViewController: UIGestureRecognizerDelegate {
+    func addGestureRecognizer() {
+        let gestureRecognizer: UITapGestureRecognizer = UITapGestureRecognizer()
+        gestureRecognizer.delegate = self
+        self.view.addGestureRecognizer(gestureRecognizer)
+    }
+        
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
+    }
 }
