@@ -7,24 +7,24 @@
 
 import UIKit
 
-class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate {
+class SignUpViewController: UIViewController, UINavigationControllerDelegate {
     
 //    MARK: - Properties
-    lazy var userImgPicker: UIImagePickerController = {
-        let imgPicker: UIImagePickerController = UIImagePickerController()
-        imgPicker.sourceType = .photoLibrary
-        imgPicker.delegate = self
-        imgPicker.allowsEditing = true
-        return imgPicker
+    lazy var userImagePicker: UIImagePickerController = {
+        let picker: UIImagePickerController = UIImagePickerController()
+        picker.sourceType = .photoLibrary
+        picker.delegate = self
+        picker.allowsEditing = true
+        return picker
     }()
     
 //    MARK: - IBOutlet
     @IBOutlet var userImageField: UIImageView!
     
     @IBOutlet var idField: UITextField!
-    @IBOutlet var pwField: UITextField!
-    @IBOutlet var chckPwField: UITextField!
-    @IBOutlet var userDescField: UITextField!
+    @IBOutlet var passwordField: UITextField!
+    @IBOutlet var checkPasswordField: UITextField!
+    @IBOutlet var userDescriptionField: UITextView!
     
     @IBOutlet var cancelButton: UIButton!
     @IBOutlet var confirmButton: UIButton!
@@ -36,21 +36,18 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     @IBAction func touchUserImageField(_ sender: UIImageView) {
-        self.present(self.userImgPicker, animated: true, completion: nil)
+        self.present(self.userImagePicker, animated: true, completion: nil)
     }
     
     //  Confirm button state check
     @IBAction func confirmButtonState(_ sender: UIView) {
         if self.userImageField.image != nil
             && self.idField.text != ""
-            && self.pwField.text != ""
-            && self.chckPwField.text != ""
-            && self.userDescField.text != "" {
-            if self.pwField.text == self.chckPwField.text {
+            && self.passwordField.text != ""
+            && self.checkPasswordField.text != ""
+            && self.userDescriptionField.text != ""
+            && self.passwordField.text == self.checkPasswordField.text{
                 self.confirmButton.isEnabled = true
-            } else {
-                self.confirmButton.isEnabled = false
-            }
         } else {
             self.confirmButton.isEnabled = false
         }
@@ -59,37 +56,23 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     @IBAction func touchConfirmButton(_ sender: UIButton) {
         UserInformation.shared.image = self.userImageField.image
         UserInformation.shared.id = self.idField.text
-        UserInformation.shared.password = self.pwField.text
-        UserInformation.shared.description = self.userDescField.text
+        UserInformation.shared.password = self.passwordField.text
+        UserInformation.shared.description = self.userDescriptionField.text
         
         let detailViewController: UIViewController = DetailSignUpViewController()
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
-//    MARK: - UIImagePickerControllerDelegate
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let selectedImg: UIImage = info[.editedImage] as? UIImage {
-            self.userImageField.image = selectedImg
-            self.confirmButtonState(self.userImageField)
-            self.dismiss(animated: true, completion: nil)
-        }
-        
-    }
-    
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
 //    MARK: - SubView
     func addSubViews() {
         self.addGestureRecognizer()
-        self.addUserImgAndFieldView()
+        self.addUserImageAndFieldView()
         self.addUserDescriptionField()
         self.addCancelAndConfirmButton()
     }
     
-    func addUserImgAndFieldView() {
-        let userImgView: UIImageView = {
+    func addUserImageAndFieldView() {
+        let userImageView: UIImageView = {
             let imgView: UIImageView = UIImageView()
             imgView.backgroundColor = .systemOrange
             imgView.tintColor = .systemYellow
@@ -97,8 +80,8 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             return imgView
         }()
         let touchUserImageField: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(touchUserImageField(_:)))
-        userImgView.addGestureRecognizer(touchUserImageField)
-        userImgView.isUserInteractionEnabled = true
+        userImageView.addGestureRecognizer(touchUserImageField)
+        userImageView.isUserInteractionEnabled = true
         
         
         let idFieldView: UITextField = {
@@ -109,27 +92,27 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         }()
         idFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
         
-        let pwFieldView: UITextField = {
+        let passwordFieldView: UITextField = {
             let field: UITextField = UITextField()
             field.placeholder = "Password"
             field.isSecureTextEntry = true
             field.borderStyle = .roundedRect
             return field
         }()
-        pwFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
+        passwordFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
         
-        let validPWFieldView: UITextField = {
+        let validPasswordFieldView: UITextField = {
             let field: UITextField = UITextField()
             field.placeholder = "Check Password"
             field.isSecureTextEntry = true
             field.borderStyle = .roundedRect
             return field
         }()
-        validPWFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
+        validPasswordFieldView.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
         
         // vertical stack of textfields
         let textFieldStack: UIStackView = {
-            let stack: UIStackView = UIStackView(arrangedSubviews: [idFieldView, pwFieldView, validPWFieldView])
+            let stack: UIStackView = UIStackView(arrangedSubviews: [idFieldView, passwordFieldView, validPasswordFieldView])
             stack.axis = .vertical
             stack.spacing = 10
             stack.alignment = .fill
@@ -139,7 +122,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         // horizontal stack of textfields and imagefield
         let fieldstack: UIStackView = {
-            let stack: UIStackView = UIStackView(arrangedSubviews: [userImgView, textFieldStack])
+            let stack: UIStackView = UIStackView(arrangedSubviews: [userImageView, textFieldStack])
             stack.axis = .horizontal
             stack.spacing = 10
             return stack
@@ -157,11 +140,11 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         let width: NSLayoutConstraint
         width = fieldstack.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.9)
         
-        let imgFieldRatio: NSLayoutConstraint
-        imgFieldRatio = NSLayoutConstraint(item: userImgView, attribute: .height, relatedBy: .equal, toItem: userImgView, attribute: .width, multiplier: 1.0, constant: 0.0)
+        let imageFieldRatio: NSLayoutConstraint
+        imageFieldRatio = NSLayoutConstraint(item: userImageView, attribute: .height, relatedBy: .equal, toItem: userImageView, attribute: .width, multiplier: 1.0, constant: 0.0)
         
         let height: NSLayoutConstraint
-        height = fieldstack.heightAnchor.constraint(equalTo: userImgView.heightAnchor)
+        height = fieldstack.heightAnchor.constraint(equalTo: userImageView.heightAnchor)
         
         let textFieldStackWidth: NSLayoutConstraint
         textFieldStackWidth = textFieldStack.widthAnchor.constraint(equalTo: fieldstack.widthAnchor, multiplier: 0.66)
@@ -169,42 +152,42 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         top.isActive = true
         centerX.isActive = true
         width.isActive = true
-        imgFieldRatio.isActive = true
+        imageFieldRatio.isActive = true
         height.isActive = true
         textFieldStackWidth.isActive = true
 
-        self.userImageField = userImgView
+        self.userImageField = userImageView
         self.idField = idFieldView
-        self.pwField = pwFieldView
-        self.chckPwField = validPWFieldView
+        self.passwordField = passwordFieldView
+        self.checkPasswordField = validPasswordFieldView
     }
     
     func addUserDescriptionField() {
-        let descField: UITextField = UITextField()
-        descField.borderStyle = .bezel
+        let descriptionField: UITextView = UITextView()
+        descriptionField.layer.borderWidth = 1.0
+        descriptionField.layer.borderColor = UIColor.gray.cgColor
         
-        self.view.addSubview(descField)
-        descField.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(descriptionField)
+        descriptionField.translatesAutoresizingMaskIntoConstraints = false
         
         let centerX: NSLayoutConstraint
-        centerX = descField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        centerX = descriptionField.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         
         let top: NSLayoutConstraint
-        top = descField.topAnchor.constraint(equalTo: self.chckPwField.bottomAnchor, constant: 10.0)
+        top = descriptionField.topAnchor.constraint(equalTo: self.checkPasswordField.bottomAnchor, constant: 10.0)
         
         let width: NSLayoutConstraint
-        width = descField.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.9)
+        width = descriptionField.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.9)
         
         let bottom: NSLayoutConstraint
-        bottom = descField.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -100.0)
+        bottom = descriptionField.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -100.0)
         
         centerX.isActive = true
         top.isActive = true
         bottom.isActive = true
         width.isActive = true
         
-        descField.addTarget(self, action: #selector(confirmButtonState(_:)), for: .editingChanged)
-        self.userDescField = descField
+        self.userDescriptionField = descriptionField
     }
     
     func addCancelAndConfirmButton() {
@@ -248,7 +231,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         width = buttonStack.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor)
         
         let top: NSLayoutConstraint
-        top = buttonStack.topAnchor.constraint(equalTo: self.userDescField.bottomAnchor, constant: 10)
+        top = buttonStack.topAnchor.constraint(equalTo: self.userDescriptionField.bottomAnchor, constant: 10)
         
         centerX.isActive = true
         bottom.isActive = true
@@ -265,12 +248,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         gestureRecognizer.delegate = self
         self.view.addGestureRecognizer(gestureRecognizer)
     }
-    
-//    MARK: GestureRecognizer
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        self.view.endEditing(true)
-    }
-    
 
 //    MARK: - LifeCycle
     override func viewDidLoad() {
@@ -290,4 +267,34 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     */
 
+}
+
+//    MARK: - UIImagePickerControllerDelegate
+extension SignUpViewController: UIImagePickerControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let selectedImage: UIImage = info[.editedImage] as? UIImage {
+            self.userImageField.image = selectedImage
+            self.confirmButtonState(self.userImageField)
+            self.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        self.dismiss(animated: true, completion: nil)
+    }
+}
+
+//    MARK: - GestureRecognizer
+extension SignUpViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
+    }
+}
+
+//  MARK: - UITextViewDelegate
+extension SignUpViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        self.confirmButtonState(textView)
+    }
 }
