@@ -29,18 +29,18 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
     @IBOutlet var cancelButton: UIButton!
     @IBOutlet var confirmButton: UIButton!
     
-//    MARK: - IBAction
-    @IBAction func touchCancelButton(_ sender: UIButton) {
+//    MARK: - Action
+    @objc func touchCancelButton(_ sender: UIButton) {
         UserInformation.shared.clearFields()
         self.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func touchUserImageField(_ sender: UIImageView) {
+    @objc func touchUserImageField(_ sender: UIImageView) {
         self.present(self.userImagePicker, animated: true, completion: nil)
     }
     
     //  Confirm button state check
-    @IBAction func confirmButtonState(_ sender: UIView) {
+    @objc func confirmButtonState(_ sender: UIView) {
         if self.userImageField.image != nil
             && self.idField.text != ""
             && self.passwordField.text != ""
@@ -53,7 +53,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         }
     }
     
-    @IBAction func touchConfirmButton(_ sender: UIButton) {
+    @objc func touchConfirmButton(_ sender: UIButton) {
         UserInformation.shared.image = self.userImageField.image
         UserInformation.shared.id = self.idField.text
         UserInformation.shared.password = self.passwordField.text
