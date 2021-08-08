@@ -7,22 +7,17 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIGestureRecognizerDelegate {
+class ViewController: UIViewController {
     
 //    MARK: - Properties
     var loginImageView: UIImageView!
     var inputFieldStack: UIStackView!
     
 //    MARK: - IBOutlet
-    @IBOutlet var signInButton: UIButton!
     @IBOutlet var signUpButton: UIButton!
     
 //    MARK: - IBAction
-    @IBAction func touchSignInButton(_ sender: UIButton) {
-        self.dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func touchSignUpButton(_ sender: UIButton) {
+    @objc func touchSignUpButton(_ sender: UIButton) {
         let signUpViewController = SignUpViewController()
     
         let navigationController = UINavigationController(rootViewController: signUpViewController)
@@ -134,7 +129,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
             button.contentHorizontalAlignment = .center
             return button
         }()
-        signInButton.addTarget(self, action: #selector(touchSignInButton(_:)), for: .touchUpInside)
         
         let signUpButton: UIButton = {
             let button: UIButton = UIButton()
@@ -172,7 +166,6 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         top.isActive = true
         width.isActive = true
         
-        self.signInButton = signInButton
         self.signUpButton = signUpButton
     }
     
@@ -183,16 +176,19 @@ class ViewController: UIViewController, UIGestureRecognizerDelegate {
         
         self.view.addGestureRecognizer(gestureRecognizer)
     }
-    
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        self.view.endEditing(true)
-        return true
-    }
 
 //    MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.addSubViews()
         // Do any additional setup after loading the view.
+    }
+}
+
+//    MARK: - UIGestureRecognizerDelegate
+extension ViewController: UIGestureRecognizerDelegate {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        self.view.endEditing(true)
+        return true
     }
 }
