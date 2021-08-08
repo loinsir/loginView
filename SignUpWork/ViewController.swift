@@ -40,14 +40,20 @@ class ViewController: UIViewController {
             let field: UITextField = UITextField()
             field.placeholder = "ID"
             field.borderStyle = .roundedRect
+            if let signUpId = UserInformation.shared.id {
+                field.text = signUpId
+            }
             return field
         }()
         
-        let pwInputField: UITextField = {
+        let passwordInputField: UITextField = {
             let field: UITextField = UITextField()
             field.placeholder = "Password"
             field.borderStyle = .roundedRect
             field.isSecureTextEntry = true
+            if let signUpPW = UserInformation.shared.password {
+                field.text = signUpPW
+            }
             return field
         }()
         
@@ -56,18 +62,11 @@ class ViewController: UIViewController {
             stackView.alignment = .fill
             stackView.axis = .vertical
             stackView.addArrangedSubview(idInputField)
-            stackView.addArrangedSubview(pwInputField)
+            stackView.addArrangedSubview(passwordInputField)
             stackView.spacing = 15.0
             stackView.translatesAutoresizingMaskIntoConstraints = false
             return stackView
         }()
-        
-        if let signUpId = UserInformation.shared.id {
-            idInputField.text = signUpId
-        }
-        if let signUpPW = UserInformation.shared.password {
-            pwInputField.text = signUpPW
-        }
     
         self.view.addSubview(fieldStack)
         
@@ -182,6 +181,11 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.addSubViews()
         // Do any additional setup after loading the view.
+    }
+    
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        super.dismiss(animated: flag, completion: completion)
+        self.addSubViews()
     }
 }
 

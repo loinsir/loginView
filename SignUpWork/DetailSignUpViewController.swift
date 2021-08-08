@@ -44,7 +44,6 @@ class DetailSignUpViewController: UIViewController {
         UserInformation.shared.phoneNumber = self.phoneNumberField.text
         UserInformation.shared.birthDay = self.datePicker.date
         
-        self.presentedViewController?.reloadInputViews()
         self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     

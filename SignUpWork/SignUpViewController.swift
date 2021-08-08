@@ -166,6 +166,7 @@ class SignUpViewController: UIViewController, UINavigationControllerDelegate {
         let descriptionField: UITextView = UITextView()
         descriptionField.layer.borderWidth = 1.0
         descriptionField.layer.borderColor = UIColor.gray.cgColor
+        descriptionField.delegate = self
         
         self.view.addSubview(descriptionField)
         descriptionField.translatesAutoresizingMaskIntoConstraints = false
@@ -294,7 +295,7 @@ extension SignUpViewController: UIGestureRecognizerDelegate {
 
 //  MARK: - UITextViewDelegate
 extension SignUpViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         self.confirmButtonState(textView)
     }
 }
