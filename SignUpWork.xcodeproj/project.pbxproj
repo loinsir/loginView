@@ -19,6 +19,7 @@
 		1986305126B3E84D009F37C6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1986305026B3E84D009F37C6 /* SignUpViewController.swift */; };
 		1986309326B7C998009F37C6 /* DetailSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1986309226B7C998009F37C6 /* DetailSignUpViewController.swift */; };
 		1986309526B99694009F37C6 /* UserInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1986309426B99694009F37C6 /* UserInformation.swift */; };
+		1988A63426C1107D000E18FD /* Simulator Screen Recording - iPhone 12.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1988A63326C1107D000E18FD /* Simulator Screen Recording - iPhone 12.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		1986305026B3E84D009F37C6 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		1986309226B7C998009F37C6 /* DetailSignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailSignUpViewController.swift; sourceTree = "<group>"; };
 		1986309426B99694009F37C6 /* UserInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInformation.swift; sourceTree = "<group>"; };
+		1988A63326C1107D000E18FD /* Simulator Screen Recording - iPhone 12.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "Simulator Screen Recording - iPhone 12.gif"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +89,7 @@
 		1986300E26B195B9009F37C6 = {
 			isa = PBXGroup;
 			children = (
+				1988A63326C1107D000E18FD /* Simulator Screen Recording - iPhone 12.gif */,
 				1986301926B195B9009F37C6 /* SignUpWork */,
 				1986303026B195B9009F37C6 /* SignUpWorkTests */,
 				1986303B26B195B9009F37C6 /* SignUpWorkUITests */,
@@ -244,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1986302726B195B9009F37C6 /* LaunchScreen.storyboard in Resources */,
+				1988A63426C1107D000E18FD /* Simulator Screen Recording - iPhone 12.gif in Resources */,
 				1986302426B195B9009F37C6 /* Assets.xcassets in Resources */,
 				1986302226B195B9009F37C6 /* Main.storyboard in Resources */,
 				1986304B26B1988E009F37C6 /* loginIcon.png in Resources */,
